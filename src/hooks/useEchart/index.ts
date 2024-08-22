@@ -10,7 +10,6 @@ echarts.registerTheme('dark', customTheme)
 echarts.registerTheme('dark-blue', customTheme)
 export function useEchart(dom: Ref<HTMLElement>, options: Ref<ECOption>) {
   const chart = ref<echarts.EChartsType>()
-
   const resize = () => {
     chart.value?.resize()
   }
@@ -26,8 +25,10 @@ export function useEchart(dom: Ref<HTMLElement>, options: Ref<ECOption>) {
      *  echarts为ref响应式对象导致resize不生效
      */
     chart.value = markRaw(echarts.init(dom.value, activeThemeName.value)) //初始化echarts实例
-
     chart.value.setOption(options.value) //设置echarts配置项
+    chart.value?.on('finished', () => {
+      chart.value?.resize()
+    })
     window.addEventListener('resize', resize) //监听窗口大小变化
   })
   onUnmounted(() => {

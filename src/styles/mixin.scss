@@ -8,6 +8,7 @@
 /** 美化原生滚动条 */
 %scrollbar {
   // 整个滚动条
+
   &::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -27,6 +28,9 @@
   &::-webkit-scrollbar-corner {
     background-color: transparent;
   }
+  //火狐浏览器兼容
+  scrollbar-width: thin;
+  scrollbar-color: #90939955 transparent;
 }
 
 .h100 {

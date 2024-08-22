@@ -1,5 +1,6 @@
 import { type SearchBoxConfigs } from '@/types/search-box'
 import { timeFormatter } from '@/utils/formatter'
+import { publicStateOptions } from '@/utils/options-label'
 import { type VxeFormPropTypes, type VxeGridPropTypes } from 'vxe-table'
 export const columns: VxeGridPropTypes.Columns = [
   {
@@ -15,6 +16,15 @@ export const columns: VxeGridPropTypes.Columns = [
     title: '文章内容',
     field: 'content',
     minWidth: '80px'
+  },
+  {
+    title: '状态',
+    field: 'state',
+    minWidth: '80px',
+    cellRender: {
+      name: 'StateTag',
+      options: publicStateOptions
+    }
   },
   {
     title: '新建时间',
@@ -35,7 +45,7 @@ export const columns: VxeGridPropTypes.Columns = [
   {
     title: '操作',
     field: 'action',
-    width: '120px',
+    width: '160px',
     fixed: 'right',
     showOverflow: false,
     slots: { default: 'row-operate' }
@@ -81,5 +91,11 @@ export const configs: SearchBoxConfigs[] = [
     type: 'input',
     field: 'title',
     label: '文章标题'
+  },
+  {
+    type: 'select',
+    field: 'state',
+    label: '发布状态',
+    options: publicStateOptions
   }
 ]

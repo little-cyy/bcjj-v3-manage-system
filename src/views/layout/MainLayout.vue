@@ -33,6 +33,8 @@ import Menu from "./components/Menus/index.vue";
 
     .el-aside {
       width: auto;
+      overflow-y: auto;
+      overflow-x: hidden;
     }
 
     .el-header {

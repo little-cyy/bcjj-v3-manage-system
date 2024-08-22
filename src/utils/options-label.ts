@@ -1,6 +1,10 @@
-export const stateOptions = [
-  { label: '启用', value: 1 },
-  { label: '禁用', value: 0 }
+export const startStateOptions = [
+  { label: '启用', value: 1, color: 'success' },
+  { label: '禁用', value: 0, color: 'danger' }
+]
+export const publicStateOptions = [
+  { label: '已发布', value: 1, color: 'success' },
+  { label: '未发布', value: 0, color: 'danger' }
 ]
 export const roleOptions = [
   { label: '普通用户', value: 0 },

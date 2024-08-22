@@ -25,9 +25,10 @@ export const getBarOption = (pieOpts: pieOpts): ECOption => {
       top: '30px'
     },
     grid: {
-      left: '40px',
-      right: '20px',
-      bottom: '20px'
+      left: '3%',
+      right: '4%',
+      bottom: '2%',
+      containLabel: true
     },
     xAxis: [
       {

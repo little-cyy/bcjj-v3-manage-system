@@ -27,7 +27,7 @@ export const getLineOption = (pieOpts: pieOpts): ECOption => {
     grid: {
       left: '3%',
       right: '4%',
-      bottom: '3%',
+      bottom: '2%',
       containLabel: true
     },
     xAxis: [

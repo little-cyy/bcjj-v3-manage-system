@@ -15,6 +15,20 @@ const renderMap: { [name: string]: RendererOptions } = {
       // 返回渲染TreeSelect组件的代码
       return [<TreeSelect v-model={data[field]} options={options} {...props}></TreeSelect>]
     }
+  },
+  // 定义StateTag渲染器选项
+  StateTag: {
+    renderDefault(renderOpts, params) {
+      const { row, column } = params
+      const { field } = column
+      const { options } = renderOpts
+      const item = (options as Array<{ value: string; label: string; color: string }>).find(
+        (item) => item.value === row[field]
+      )
+      if (item)
+        return [<span class={`el-tag el-tag--${item.color} el-tag--plain`}>{item.label}</span>]
+      return [<span></span>]
+    }
   }
 }
 

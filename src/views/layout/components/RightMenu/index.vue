@@ -22,29 +22,22 @@
 import Screenfull from '@/components/Screenfull/index.vue'
 import ThemeSwitch from '@/components/ThemeSwitch/index.vue'
 import { defaultCircleUrl } from '@/config/url'
+import { useMessageBox } from '@/hooks/useMessageBox'
 import { useAuthStore } from '@/store/auth'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage, } from 'element-plus'
 import { storeToRefs } from 'pinia'
 const authStore = useAuthStore()
 const { getUserInfoTer } = storeToRefs(authStore)
+const { confirmBox } = useMessageBox()
+
 /**登出 */
 const logout = () => {
-  ElMessageBox.confirm(
-    '您确定要退出登录吗？这将清除您的所有会话信息。',
-    '警告',
-    {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
-      type: 'warning',
+  confirmBox('您确定要退出登录吗？这将清除您的所有会话信息。', {
+    onConfirm: () => {
+      authStore.logout()
+      ElMessage.success('退出登录成功')
     }
-  ).then(() => {
-    ElMessage({
-      type: 'success',
-      message: '退出登录成功',
-    })
-    authStore.logout()
   })
-
 }
 </script>
 <style lang="scss" scoped>

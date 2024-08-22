@@ -3,7 +3,13 @@
     <!-- 搜索栏组件，传入配置项和搜索事件 -->
     <SearchBar :configs="configs" @search="search" />
     <!-- 表格组件，传入propsOp对象 -->
-    <TableBox ref="tableBoxRef" v-bind="propsOp" />
+    <TableBox ref="tableBoxRef" v-bind="propsOp">
+      <template #row-operate-other="{ row }">
+        <el-button link :type="row.state ? 'danger' : 'primary'" @click="updateState(row)">{{ row.state ?
+          '撤回' : '发布'
+          }}</el-button>
+      </template>
+    </TableBox>
   </div>
 </template>
 <script setup lang="ts">
@@ -14,6 +20,9 @@ import TableBox from "@/components/TableBox/index.vue"
 import { columns, configs, formItems, formRules } from './index'
 // 引入接口
 import { addArticleApi, batchDelArticleApi, delArticleApi, editArticleApi, getArticlesApi } from '@/api/news-notice/article-manage'
+import { useMessageBox } from '@/hooks/useMessageBox'
+const { confirmBox } = useMessageBox()
+
 // 定义表格组件的引用
 const tableBoxRef = ref()
 // 定义propsOp对象，传入表格组件
@@ -41,7 +50,18 @@ const search = (searchForm: Record<string, any>) => {
 
 }
 
-
+const updateState = (row: Record<string, any>) => {
+  const operate = row.state === 1 ? '撤回' : '发布'
+  const type = row.state === 1 ? 'danger' : 'success'
+  const tip = `确定 <strong style="color: var(--el-color-${type});">${operate}</strong> 文章标题为<strong style="color: var(--el-color-primary);"> ${row.title} </strong>的记录吗 ？`
+  confirmBox(tip, {
+    onConfirm: () => {
+      editArticleApi({ id: row.id, state: row.state === 1 ? 0 : 1 }).then(() => {
+        tableBoxRef.value.refresh()
+      })
+    }
+  })
+}
 
 </script>
 <style lang="scss" scoped></style>

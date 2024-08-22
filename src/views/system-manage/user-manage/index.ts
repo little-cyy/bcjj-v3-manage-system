@@ -7,13 +7,12 @@ import {
   roleOptions,
   roleOptions2,
   sexOptions,
-  stateOptions
+  startStateOptions
 } from '@/utils/options-label'
 import { storeToRefs } from 'pinia'
 import { watchEffect, type WatchStopHandle } from 'vue'
 import { type VxeFormPropTypes, type VxeGridPropTypes } from 'vxe-table'
 import PwdFormItemSlots from './tsx/PwdFormItemSlots'
-import StateColumnSlots from './tsx/StateColumnSlots'
 const authStore = useAuthStore()
 const { userInfo } = storeToRefs(authStore)
 let roleOpts = roleOptions2
@@ -54,9 +53,13 @@ export const columns: VxeGridPropTypes.Columns = [
   {
     field: 'state',
     title: '状态',
-    slots: StateColumnSlots,
-    width: '80px'
+    width: '80px',
+    cellRender: {
+      name: 'StateTag',
+      options: startStateOptions
+    }
   },
+
   {
     title: '角色',
     field: 'role',
@@ -135,7 +138,7 @@ export const formItems: VxeFormPropTypes.Items = [
     title: '状态',
     itemRender: {
       name: 'ElSelect',
-      options: stateOptions,
+      options: startStateOptions,
       props: { placeholder: '请选择状态' }
     }
   },
@@ -196,7 +199,7 @@ export const formRules: VxeFormPropTypes.Rules = {
         switch (true) {
           case !itemValue:
             return new Error('请输入邮箱')
-          case !/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(itemValue):
+          case !/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(itemValue):
             return new Error('请输入正确的邮箱')
         }
       }
@@ -218,7 +221,7 @@ export const formRules: VxeFormPropTypes.Rules = {
       required: true,
       validator: ({ itemValue }) => {
         switch (true) {
-          case !itemValue:
+          case [null, undefined].includes(itemValue):
             return new Error('请选择状态')
         }
       }
@@ -251,7 +254,7 @@ export const configs: SearchBoxConfigs[] = [
     type: 'select',
     field: 'state',
     label: '状态',
-    options: stateOptions
+    options: startStateOptions
   },
   {
     type: 'select',
