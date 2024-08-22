@@ -1,0 +1,63 @@
+/** 自定义 Element Plus 样式 */
+
+/**为默认主题、dark、dark-blue主题内容区设置背景色 */
+.normal,
+.dark,
+.dark-blue {
+  .el-main {
+    background-color: var(--el-main-bg-color);
+  }
+}
+
+/** dark-blue主题设置color-scheme属性 */
+html.dark-blue {
+  color-scheme: dark;
+}
+
+/** 头部导航栏 */
+.el-header {
+  background-color: var(--el-bg-color);
+  border-bottom: 1px solid var(--el-border-color);
+}
+.el-dropdown {
+  cursor: default;
+}
+
+/** 去除提示框的黑框 */
+.el-tooltip__trigger:focus-visible {
+  outline: none;
+}
+
+/** 下拉框 */
+
+.el-select-dropdown__wrap {
+  max-height: 200px !important;
+  height: 100%;
+  // overflow-y: hidden;
+}
+
+//append复合型输入框嵌入el-button按钮样式还原
+.el-input-group__append button.el-button.el-button-restore {
+  background-color: var(--el-button-bg-color);
+  border-color: var(--el-button-border-color);
+  color: var(--el-color-white);
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  &:hover {
+    background-color: var(--el-button-hover-bg-color);
+    border-color: var(--el-button-hover-border-color);
+    color: var(--el-button-hover-text-color);
+  }
+  &:active {
+    background-color: var(--el-button-active-bg-color);
+    border-color: var(--el-button-active-border-color);
+    color: var(--el-button-active-text-color);
+  }
+  &.el-button:focus-visible {
+    outline: 2px solid var(--el-button-outline-color);
+    outline-offset: 1px;
+    transition:
+      outline-offset 0s,
+      outline 0s;
+  }
+}

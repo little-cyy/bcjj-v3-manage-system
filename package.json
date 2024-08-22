@@ -1,0 +1,70 @@
+{
+  "name": "v3-admin-vite-main",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "run-p type-check \"build-only {@}\" --",
+    "preview": "vite preview",
+    "build-only": "vite build",
+    "type-check": "vue-tsc --build --force",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+    "format": "prettier --write src/",
+    "prepare": "husky install"
+  },
+  "dependencies": {
+    "@vitejs/plugin-vue-jsx": "^4.0.1",
+    "axios": "^1.7.2",
+    "echarts": "^5.5.1",
+    "element-plus": "^2.7.8",
+    "jsencrypt": "^3.3.2",
+    "mitt": "^3.0.1",
+    "nprogress": "^0.2.0",
+    "pinia": "^2.2.0",
+    "pinia-plugin-persistedstate": "^3.2.1",
+    "screenfull": "^6.0.2",
+    "vite-plugin-top-level-await": "^1.4.4",
+    "vue": "^3.4.29",
+    "vue-router": "^4.3.3",
+    "vxe-table": "^4.6.17",
+    "vxe-table-plugin-element": "^4.0.4",
+    "xe-utils": "^3.5.30"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^12.1.4",
+    "@commitlint/config-conventional": "^12.1.4",
+    "@rushstack/eslint-patch": "^1.8.0",
+    "@tsconfig/node20": "^20.1.4",
+    "@types/node": "^20.14.5",
+    "@vitejs/plugin-vue": "^5.0.5",
+    "@vue/eslint-config-prettier": "^9.0.0",
+    "@vue/eslint-config-typescript": "^13.0.0",
+    "@vue/tsconfig": "^0.5.1",
+    "cz-conventional-changelog-zh": "^0.0.2",
+    "cz-customizable": "^6.3.0",
+    "eslint": "^8.57.0",
+    "eslint-plugin-vue": "^9.23.0",
+    "husky": "^7.0.1",
+    "npm-run-all2": "^6.2.0",
+    "prettier": "^3.2.5",
+    "sass": "^1.77.8",
+    "typescript": "~5.4.0",
+    "unplugin-vue-components": "^0.27.3",
+    "vite": "^5.3.1",
+    "vite-plugin-lazy-import": "^1.0.7",
+    "vite-plugin-svg-icons": "^2.0.1",
+    "vue-tsc": "^2.0.21"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog-zh"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{ts,vue}": [
+      "eslint --fix",
+      "git add"
+    ]
+  }
+}

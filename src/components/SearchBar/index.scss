@@ -1,0 +1,29 @@
+.search-box {
+  padding: 8px 16px 16px;
+  background-color: var(--el-bg-color);
+  // border: 1px solid var(--el-border-color);
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  margin-bottom: 16px;
+  .search-box__form {
+    flex-grow: 1;
+    .el-col {
+      padding-top: 8px;
+      max-width: 400px;
+    }
+  }
+  .search-box__btn {
+    padding-top: 8px;
+    flex-shrink: 0;
+    min-width: 200px;
+    margin-left: 20px;
+    .more-btn {
+      color: var(--el-color-primary);
+      padding: 0;
+      &:hover {
+        background-color: transparent;
+      }
+    }
+  }
+}
