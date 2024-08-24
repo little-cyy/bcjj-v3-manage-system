@@ -1,8 +1,7 @@
-import { ref } from 'vue'
+import { useDictionaryStore } from '@/store/dictionary'
 import { type SearchBoxConfigs } from '@/types/search-box'
 import { dayFormatter, isOrNotFormatter } from '@/utils/formatter'
-import { type VxeGridPropTypes, type VxeFormPropTypes } from 'vxe-table'
-import { useDictionaryStore } from '@/store/dictionary'
+import { type VxeFormPropTypes, type VxeGridPropTypes } from 'vxe-table'
 const dictionaryStore = useDictionaryStore()
 const isOrNotOptions = [
   { label: '是', value: true },
@@ -179,17 +178,7 @@ export const useConfigs = async () => {
         }
       }
     ],
-    categoryId: [
-      {
-        required: true,
-        validator: ({ itemValue }) => {
-          switch (true) {
-            case !itemValue:
-              return new Error('请选择所属分类')
-          }
-        }
-      }
-    ],
+    categoryId: [{ required: true, message: '请选择分类' }],
     likesCount: [
       {
         validator: ({ itemValue }) => {

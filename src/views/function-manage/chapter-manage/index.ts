@@ -128,17 +128,7 @@ export const useConfigs = async () => {
         }
       }
     ],
-    courseId: [
-      {
-        required: true,
-        validator: ({ itemValue }) => {
-          switch (true) {
-            case !itemValue:
-              return new Error('请选择所属分类')
-          }
-        }
-      }
-    ],
+    courseId: [{ required: true, message: '请选择分类' }],
     rank: [
       {
         required: true,

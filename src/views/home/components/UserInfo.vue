@@ -1,5 +1,5 @@
 <template>
-  <el-card class="user-card h100">
+  <el-card class="user-card">
     <el-row :gutter="20">
       <el-col :span="12" class="avatar">
         <el-avatar :size="100" :src="getUserInfoTer.avatar || defaultCircleUrl"></el-avatar>
@@ -9,13 +9,13 @@
         <p>{{ getRoleLabel(getUserInfoTer.role) }}</p>
       </el-col>
       <el-col class="login-info">
-        <p class="flex-space-around">
-          <span>上次登录时间:</span>
-          <span>{{ dayFormatter(getUserInfoTer.lastLoginTime) }}</span>
+        <p class="flex-space-around time">
+          <span class="label">上次登录时间:</span>
+          <span class="content">{{ timeFormatter(getUserInfoTer.lastLoginTime) || '首次登录' }}</span>
         </p>
         <p class="flex-space-around">
-          <span> 上次登录地点:</span>
-          <span>{{ getUserInfoTer.address }}</span>
+          <span class="label"> 上次登录地点:</span>
+          <span class="content">{{ getUserInfoTer.address || '首次登录' }}</span>
         </p>
       </el-col>
     </el-row>
@@ -24,7 +24,7 @@
 <script setup lang="ts">
 import { defaultCircleUrl } from '@/config/url';
 import { useAuthStore } from '@/store/auth';
-import { dayFormatter } from "@/utils/formatter";
+import { timeFormatter } from "@/utils/formatter";
 import { getRoleLabel } from '@/utils/options-label';
 import { storeToRefs } from 'pinia';
 const authStore = useAuthStore()
@@ -49,14 +49,29 @@ const { getUserInfoTer } = storeToRefs(authStore)
 .login-info {
   font-size: 14px;
   color: #999;
+  margin-top: 5px;
   border-top: 1px solid var(--el-border-color);
 
   p {
-    line-height: 14px;
 
-    span {
-      width: 100px;
+    line-height: 14px;
+    margin-top: 8px;
+    margin-bottom: 0px;
+
+    &.time {
+      height: 28px;
+    }
+
+    .label {
+      width: 90px;
+      flex-shrink: 0;
       display: inline-block;
+    }
+
+    .content {
+      width: 140px;
+      display: inline-block;
+      text-align: right;
     }
 
   }

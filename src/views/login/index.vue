@@ -1,5 +1,7 @@
 <template>
+
   <div class="login-container">
+    <ThemeSwitch class="theme-switch" />
     <el-form :model="loginForm" :rules="loginRules" ref="loginRef">
       <div class="title">用户登录</div>
       <el-form-item prop="name">
@@ -22,12 +24,12 @@
   </div>
 </template>
 <script setup lang="ts">
+import ThemeSwitch from '@/components/ThemeSwitch/index.vue';
 import { useAuthStore } from '@/store/auth';
 import type { FormInstance, FormRules } from 'element-plus';
 import { reactive, ref } from "vue";
 
 const authStore = useAuthStore()
-
 const loginRef = ref<FormInstance>()
 const loginForm = reactive({
   name: "",
@@ -59,7 +61,8 @@ const toLogin = async (formEl: FormInstance | undefined) => {
   justify-content: center;
   height: 100vh;
   width: 100vw;
-  background-color: #f0f2f5;
+
+  background-color: var(--el-bg-color);
 
   .el-form {
     width: 300px;
@@ -79,5 +82,11 @@ const toLogin = async (formEl: FormInstance | undefined) => {
       width: 100%;
     }
   }
+}
+
+.theme-switch {
+  position: absolute;
+  right: 16px;
+  top: 16px;
 }
 </style>

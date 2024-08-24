@@ -28,7 +28,6 @@ import UserInfo from "./components/UserInfo.vue";
 
 .left-flex {
   gap: 16px;
-
 }
 
 .right-flex {

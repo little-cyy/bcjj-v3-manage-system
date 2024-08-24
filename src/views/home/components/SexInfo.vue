@@ -1,5 +1,5 @@
 <template>
-  <el-card class="sex-info h100">
+  <el-card class="sex-info">
     <div ref="sexInfoDom" style="height: 100%;width: 100%">
     </div>
   </el-card>

@@ -1,5 +1,5 @@
 <template>
-  <el-card class="user-count h100">
+  <el-card class="user-count">
     <div ref="userCountDom" style="height: 100%;width: 100%">
     </div>
   </el-card>

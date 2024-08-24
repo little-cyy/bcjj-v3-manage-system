@@ -1,5 +1,5 @@
 <template>
-  <el-card class="user-count h100">
+  <el-card class="user-count">
     <div ref="userCountDom" style="height: 100%;width: 100%">
     </div>
   </el-card>
@@ -14,7 +14,7 @@ const userCountDom = ref()
 const options = ref()
 const { data } = await addUserCountApi()
 const option = {
-  xAxisData: data.months,
+  xAxisData: data.days,
   seriesData: [
     { name: '新增用户数', data: data.adduserCounts },
     { name: '活跃用户数', data: data.activeuserCounts }

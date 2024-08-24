@@ -72,15 +72,5 @@ export const formItems: VxeFormPropTypes.Items = [
   }
 ]
 export const formRules: VxeFormPropTypes.Rules = {
-  menus: [
-    {
-      required: true,
-      validator: ({ itemValue }) => {
-        switch (true) {
-          case !itemValue:
-            return new Error('请选择菜单分配')
-        }
-      }
-    }
-  ]
+  menus: [{ required: true, message: '请选择菜单分配' }]
 }

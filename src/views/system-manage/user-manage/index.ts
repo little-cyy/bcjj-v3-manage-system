@@ -205,39 +205,9 @@ export const formRules: VxeFormPropTypes.Rules = {
       }
     }
   ],
-  sex: [
-    {
-      required: true,
-      validator: ({ itemValue }) => {
-        switch (true) {
-          case !itemValue:
-            return new Error('请选择性别')
-        }
-      }
-    }
-  ],
-  state: [
-    {
-      required: true,
-      validator: ({ itemValue }) => {
-        switch (true) {
-          case [null, undefined].includes(itemValue):
-            return new Error('请选择状态')
-        }
-      }
-    }
-  ],
-  role: [
-    {
-      required: true,
-      validator: ({ itemValue }) => {
-        switch (true) {
-          case !itemValue:
-            return new Error('请选择角色')
-        }
-      }
-    }
-  ]
+  sex: [{ required: true, message: '请选择性别' }],
+  state: [{ required: true, message: '请选择状态' }],
+  role: [{ required: true, message: '请选择角色' }]
 }
 export const configs: SearchBoxConfigs[] = [
   {
