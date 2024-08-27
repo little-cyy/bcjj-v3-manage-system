@@ -26,9 +26,9 @@ export function useEchart(dom: Ref<HTMLElement>, options: Ref<ECOption>) {
      */
     chart.value = markRaw(echarts.init(dom.value, activeThemeName.value)) //初始化echarts实例
     chart.value.setOption(options.value) //设置echarts配置项
-    chart.value?.on('finished', () => {
+    setTimeout(() => {
       chart.value?.resize()
-    })
+    }, 0)
     window.addEventListener('resize', resize) //监听窗口大小变化
   })
   onUnmounted(() => {
