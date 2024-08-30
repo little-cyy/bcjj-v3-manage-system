@@ -30,7 +30,7 @@ export const batchDelArticleApi = (data: Articles.batchDelApiRequestData) => {
 export const addArticleApi = (data: Record<string, any>) => {
   return request({
     url: `/admin/articles`,
-    data,
+    data: { ...data, state: 0 },
     method: 'post'
   })
 }
