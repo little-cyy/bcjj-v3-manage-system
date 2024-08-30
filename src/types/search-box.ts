@@ -1,4 +1,3 @@
-import { type VxeFormPropTypes } from 'vxe-table'
 interface SearchBoxConfigs {
   /** 使用表单项组件名称 */
   type: 'input' | 'select' | 'date' | 'date-range'

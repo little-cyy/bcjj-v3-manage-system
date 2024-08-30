@@ -25,70 +25,19 @@
 </template>
 
 <script lang="ts" setup>
-import ModalForm from "@/components/ModalForm/index.vue"
-import { type TableResponseData } from "@/types/table-box"
-import { Delete, Plus } from '@element-plus/icons-vue'
-import { type ElMessageBoxOptions, ElMessage, ElMessageBox } from "element-plus"
-import { reactive, ref } from "vue"
+import ModalForm from "@/components/ModalForm/index.vue";
+import { type MordalFormProps } from '@/types/modal-form';
+import { type TableBoxProps, type TableResponseData } from "@/types/table-box";
+import { Delete, Plus } from '@element-plus/icons-vue';
+import { type ElMessageBoxOptions, ElMessage, ElMessageBox } from "element-plus";
+import { reactive, ref } from "vue";
 import {
-  type VxeFormPropTypes,
   type VxeGridInstance,
-  type VxeGridProps,
-  type VxeGridPropTypes
-} from "vxe-table"
+  type VxeGridProps
+} from "vxe-table";
 
 
-interface Props {
-  // 表格列配置
-  columns: VxeGridPropTypes.Columns
-  // 表单配置
-  formItems: VxeFormPropTypes.Items
-  // 表单验证规则
-  formRules?: VxeFormPropTypes.Rules
-  // 获取表格数据接口
-  getTableDataApi: Function
-  // 根据id获取表格详情数据接口
-  getTableDataByIdApi?: Function
-  // 删除表格数据接口
-  deleteTableDataApi?: Function
-  // 批量删除表格数据接口
-  batchDeleteTableDataApi?: Function
-  // 自定义配置
-  customConfig?: Record<string, any>
-  // 复选框配置
-  checkboxConfig?: Record<string, any>
-  // 单选框配置
-  radioConfig?: Record<string, any>
-  //树形结构配置项
-  treeConfig?: Record<string, any>
-  // 搜索参数
-  serachParams?: Record<string, any>
-  // 是否显示添加按钮
-  showAddBtn?: boolean
-  // 是否显示批量删除按钮
-  showBatchDelBtn?: boolean,
-  // 是否显示编辑按钮
-  showEditBtn?: boolean
-  // 是否显示删除按钮
-  showDelBtn?: boolean
-  // 禁用表单项
-  disabledItems?: string[]
-  // 表单新增提交接口
-  addTableDataApi?: Function
-  // 表单修改提交接口
-  editTableDataApi?: Function
-  //点击删除按钮模态框的提示
-  getDeleteTip?: Function
-  // 点击批量删除按钮模态框的提示
-  getBatchDeleteTip?: Function
-  // 模态框的宽度
-  modalWidth?: number | string
-  // 是否自动加载表格数据
-  autoLoad?: boolean
-  // 是否需要分页
-  needPager?: boolean
-}
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<TableBoxProps>(), {
   showAddBtn: true,
   showBatchDelBtn: true,
   showEditBtn: true,
@@ -185,7 +134,7 @@ const xGridOpt: VxeGridProps = reactive({
 
 //#region modalForm
 const modalFormDom = ref()
-const modalFormOpt = reactive({
+const modalFormOpt = reactive(<MordalFormProps>{
   // 表单配置
   formItems: props.formItems,
   // 表单验证规则
@@ -205,26 +154,11 @@ const modalFormEvents = {
     callback(data)
   },
   sumbitForm(formData: Record<string, any>, callback: (isSuccess?: boolean) => void) {
-    const submitApi = crudStore.isUpdate ? props.editTableDataApi : props.addTableDataApi
-    const callbackFn = (isSuccess?: boolean) => {
-      callback(isSuccess)
-      if (isSuccess) {
-        !crudStore.isUpdate && crudStore.afterInsert()
-        crudStore.commitQuery()
-      }
-    }
-    if (submitApi) {
-      submitApi(formData).then(() => {
-        callback()
-      }).catch(() => {
-        callback(false)
-      })
-    } else {
-      emits('onAddOrEditSumbit', formData, crudStore.isUpdate ? 'edit' : 'add', callbackFn)
-    }
+    emits('onAddOrEditSumbit', formData, crudStore.isUpdate ? 'edit' : 'add', callback)
   },
   submitSuccess() {
-    refresh()
+    !crudStore.isUpdate && crudStore.afterInsert()
+    crudStore.commitQuery()
   }
 }
 //endregion
@@ -244,6 +178,7 @@ const crudStore = reactive({
     if (row) {
       crudStore.isUpdate = true
       modalFormOpt.modalTitle = "修改"
+      modalFormOpt.submitApi = props.editTableDataApi
       if (props.getTableDataByIdApi) {
         modalFormOpt.asyncFormData = true
       }
@@ -251,6 +186,7 @@ const crudStore = reactive({
     } else {
       crudStore.isUpdate = false
       modalFormOpt.modalTitle = "新增"
+      modalFormOpt.submitApi = props.addTableDataApi
       formData = {}
     }
     // 禁用表单项

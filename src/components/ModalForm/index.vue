@@ -4,26 +4,12 @@
   </vxe-modal>
 </template>
 <script setup lang="ts">
+import { type MordalFormProps } from '@/types/modal-form';
 import { ElMessage } from "element-plus";
 import { nextTick, reactive, ref, toRefs } from "vue";
-import { type VxeFormInstance, type VxeFormProps, type VxeFormPropTypes, type VxeModalInstance, type VxeModalProps } from 'vxe-table';
+import { type VxeFormInstance, type VxeFormProps, type VxeModalInstance, type VxeModalProps } from 'vxe-table';
 
-interface Props {
-  // 表单配置
-  formItems: VxeFormPropTypes.Items
-  // 表单验证规则
-  formRules?: VxeFormPropTypes.Rules
-  //表单提交接口
-  submitApi?: (params?: any) => Promise<any>
-  // 模态框标题
-  modalTitle?: string
-  // 模态框宽度
-  modalWidth?: number | string
-  //表单数据异步获取
-  asyncFormData?: boolean
-}
-
-const props = withDefaults(defineProps<Props>(), {})
+const props = withDefaults(defineProps<MordalFormProps>(), {})
 const emits = defineEmits(['asyncGetFormData', 'sumbitForm', 'submit-success'])
 const { modalTitle, modalWidth } = toRefs(props)
 
