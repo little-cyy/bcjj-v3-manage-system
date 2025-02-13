@@ -6,7 +6,7 @@
 <script setup lang="ts">
 import { type MordalFormProps } from '@/types/modal-form';
 import { ElMessage } from "element-plus";
-import { nextTick, reactive, ref, toRefs } from "vue";
+import { nextTick, reactive, ref, toRefs, watch } from "vue";
 import { type VxeFormInstance, type VxeFormProps, type VxeModalInstance, type VxeModalProps } from 'vxe-table';
 
 const props = withDefaults(defineProps<MordalFormProps>(), {})
@@ -38,22 +38,7 @@ const xFormOpt: VxeFormProps = reactive({
   titleColon: false,
   titleAlign: 'right',
   data: {},
-  items: [
-    ...props.formItems,
-    {
-      align: "right",
-      itemRender: {
-        name: "$buttons",
-        children: [
-          { props: { content: "取消" }, events: { click: () => xModalDom.value?.close() } },
-          {
-            props: { type: "submit", content: "确定", status: "primary" },
-            events: { click: () => onSubmitForm() }
-          }
-        ]
-      }
-    }
-  ],
+  items: [],
   rules: props.formRules
 })
 //#endregion 
@@ -104,6 +89,44 @@ const onSubmitForm = async () => {
     emits('sumbitForm', xFormOpt.data, callback)
   }
 }
+
+watch(() => props.modalType, (type) => {
+  if (['add', 'edit'].includes(type)) {
+    xFormOpt.items = JSON.parse(JSON.stringify(props.formItems))
+    xFormOpt.items?.push({
+      align: "right",
+      itemRender: {
+        name: "$buttons",
+        children: [
+          { props: { content: "取消" }, events: { click: () => xModalDom.value?.close() } },
+          {
+            props: { type: "submit", content: "确定", status: "primary" },
+            events: { click: () => onSubmitForm() }
+          }
+        ]
+      }
+    })
+  } else {
+    xFormOpt.items = JSON.parse(JSON.stringify(props.formItems))
+    xFormOpt.items?.forEach(item => {
+      const itemRender = item.itemRender
+      if (itemRender?.name === 'MdEditor') itemRender.name = 'MdPreview'
+      const formProps = itemRender?.props
+      formProps && (formProps.disabled = true)
+    })
+    xFormOpt.items?.push({
+      align: "right",
+      itemRender: {
+        name: "$buttons",
+        children: [
+          { props: { content: "关闭" }, events: { click: () => xModalDom.value?.close() } }
+        ]
+      }
+    })
+  }
+})
+
+
 
 defineExpose({
   onShowModal

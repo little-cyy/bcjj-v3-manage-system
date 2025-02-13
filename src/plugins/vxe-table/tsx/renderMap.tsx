@@ -1,4 +1,5 @@
-// 导入ElTreeSelect组件和RendererOptions类型
+import Editor from '@/components/Editor/index.vue'
+import Preview from '@/components/Preview/index.vue'
 import TreeSelect from '@/components/TreeSelect/index.vue'
 import { type RendererOptions } from 'vxe-table'
 
@@ -28,6 +29,26 @@ const renderMap: { [name: string]: RendererOptions } = {
       if (item)
         return [<span class={`el-tag el-tag--${item.color} el-tag--plain`}>{item.label}</span>]
       return [<span></span>]
+    }
+  },
+  MdEditor: {
+    renderItemContent(renderOpts, params) {
+      // 获取params中的data和field属性
+      const { data, field } = params
+      // 获取renderOpts中的props属性
+      const { props } = renderOpts
+      if (!data[field]) data[field] = ''
+      return [<Editor v-model={data[field]} {...props}></Editor>]
+    }
+  },
+  MdPreview: {
+    renderItemContent(renderOpts, params) {
+      // 获取params中的data和field属性
+      const { data, field } = params
+      // 获取renderOpts中的props属性
+      const { props } = renderOpts
+      if (!data[field]) data[field] = ''
+      return [<Preview v-model={data[field]} {...props}></Preview>]
     }
   }
 }

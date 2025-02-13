@@ -33,6 +33,7 @@ const propsOp = reactive({
   batchDeleteTableDataApi: batchDelArticleApi,
   addTableDataApi: addArticleApi,
   editTableDataApi: editArticleApi,
+  modalWidth: 900,
   serachParams: { name: '' },
   formItems,
   formRules,

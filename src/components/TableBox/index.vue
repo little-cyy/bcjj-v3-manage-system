@@ -1,11 +1,12 @@
 <template>
   <div class="app-container">
     <!-- 表格 -->
-    <vxe-grid ref="xGridDom" v-bind="xGridOpt" height="auto" :class="{ noPager: !props.needPager }">
+    <vxe-grid ref="xGridDom" v-bind="xGridOpt" height="auto" :class="{ noPager: !props.needPager }" v-on="xGridEvents">
       <!-- 左侧按钮列表 -->
       <template #toolbar-btns>
         <slot></slot>
-        <el-button v-if="props.showAddBtn" type="primary" :icon="Plus" @click="crudStore.onShowModal()">新增</el-button>
+        <el-button v-if="props.showAddBtn" type="primary" :icon="Plus"
+          @click="crudStore.onShowModal('add')">新增</el-button>
         <el-button v-if="props.showBatchDelBtn" type="danger" :icon="Delete" @click="crudStore.onBatchDelete()"
           status="danger">批量删除</el-button>
         <slot name="custom-btn"></slot>
@@ -13,13 +14,13 @@
       <!-- 操作 -->
       <template #row-operate="params">
         <el-button link type="primary" v-if="props.showEditBtn" :disabled="params.row.editDisabled"
-          @click="crudStore.onShowModal(params.row)">修改</el-button>
+          @click="crudStore.onShowModal('edit', params.row)">修改</el-button>
         <el-button link type="danger" v-if="props.showDelBtn" :disabled="params.row.delDisabled"
           @click="crudStore.onDelete(params.row)">删除</el-button>
         <slot name="row-operate-other" v-bind="params"></slot>
       </template>
     </vxe-grid>
-    <!-- 弹窗 -->
+    <!-- 新增、编辑、详情弹窗 -->
     <ModalForm ref="modalFormDom" v-bind="modalFormOpt" v-on="modalFormEvents" />
   </div>
 </template>
@@ -130,6 +131,11 @@ const xGridOpt: VxeGridProps = reactive({
     }
   }
 })
+const xGridEvents = {
+  cellDblclick(params: Record<string, any>) {
+    crudStore.onShowModal('detail', params.row)
+  }
+}
 //#endregion
 
 //#region modalForm
@@ -172,23 +178,25 @@ const crudStore = reactive({
   /** 清空表格数据 */
   clearTable: () => xGridDom.value?.reloadData([]),
   /** 点击显示弹窗 */
-  onShowModal: async (row?: Record<string, any>) => {
+  onShowModal: async (type: 'add' | 'edit' | 'detail', row?: Record<string, any>) => {
     let formData = {}
+    modalFormOpt.modalType = type
     modalFormOpt.asyncFormData = false
-    if (row) {
+    if (type == 'add') {
+      crudStore.isUpdate = false
+      modalFormOpt.modalTitle = "新增"
+      modalFormOpt.submitApi = props.addTableDataApi
+      formData = {}
+    } else {
       crudStore.isUpdate = true
-      modalFormOpt.modalTitle = "修改"
+      modalFormOpt.modalTitle = type == 'detail' ? "详情" : "修改"
       modalFormOpt.submitApi = props.editTableDataApi
       if (props.getTableDataByIdApi) {
         modalFormOpt.asyncFormData = true
       }
       formData = JSON.parse(JSON.stringify(row))
-    } else {
-      crudStore.isUpdate = false
-      modalFormOpt.modalTitle = "新增"
-      modalFormOpt.submitApi = props.addTableDataApi
-      formData = {}
     }
+
     // 禁用表单项
     props?.disabledItems?.forEach((item) => {
       const formProps = modalFormOpt.formItems?.find((i) => i.field === item)?.itemRender?.props

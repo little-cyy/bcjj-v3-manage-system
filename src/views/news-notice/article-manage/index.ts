@@ -61,13 +61,8 @@ export const formItems: VxeFormPropTypes.Items = [
     field: 'content',
     title: '文章内容',
     itemRender: {
-      name: 'ElInput',
-      props: {
-        type: 'textarea',
-        autosize: { minRows: 2, maxRows: 6 },
-        resize: 'none',
-        placeholder: '请输入文章内容'
-      }
+      name: 'MdEditor',
+      props: {}
     }
   }
 ]

@@ -102,12 +102,11 @@ export const useConfigs = async () => {
       field: 'content',
       title: '章节内容',
       itemRender: {
-        name: 'ElInput',
+        name: 'MdEditor',
         props: {
-          type: 'textarea',
-          autosize: { minRows: 2, maxRows: 4 },
-          resize: 'none',
-          placeholder: '请输入章节内容'
+          style: {
+            height: '55vh'
+          }
         }
       }
     }

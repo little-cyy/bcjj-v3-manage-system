@@ -7,6 +7,8 @@ export interface MordalFormProps {
   formRules?: VxeFormPropTypes.Rules
   //表单提交接口
   submitApi?: (params?: any, data?: any) => Promise<any>
+  //模态框类型
+  modalType: 'add' | 'edit' | 'detail'
   // 模态框标题
   modalTitle?: string
   // 模态框宽度

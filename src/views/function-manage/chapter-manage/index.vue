@@ -22,7 +22,7 @@ const propsOp = reactive({
   addTableDataApi: addChapterApi,
   editTableDataApi: editChapterApi,
   serachParams: { title: '' },
-  modalWidth: 600,
+  modalWidth: 900,
   formItems: configs.formItems,
   formRules: configs.formRules,
   autoLoad: false,

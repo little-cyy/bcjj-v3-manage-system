@@ -1,12 +1,12 @@
-import axios from 'axios'
+import { useAuthStore } from '@/store/auth'
 import type {
+  AxiosError,
   AxiosInstance,
   AxiosRequestConfig,
-  InternalAxiosRequestConfig,
   AxiosResponse,
-  AxiosError
+  InternalAxiosRequestConfig
 } from 'axios'
-import { useAuthStore } from '@/store/auth'
+import axios from 'axios'
 import { ElMessage } from 'element-plus'
 
 const service: AxiosInstance = axios.create({
@@ -21,11 +21,14 @@ service.interceptors.request.use(
   (config: AxiosRequestConfig) => {
     const authStore = useAuthStore()
     const token = authStore.token
+    if (!config.headers) {
+      config.headers = {}
+    }
     if (token) {
-      if (!config.headers) {
-        config.headers = {}
-      }
       config.headers['Authorization'] = 'Bearer ' + token
+    }
+    if (config.data && config.data instanceof FormData) {
+      config.headers['Content-Type'] = 'multipart/form-data'
     }
     return config as InternalAxiosRequestConfig<any> // 强制类型转换
   },
@@ -76,12 +79,12 @@ const invalidTokenFn = (data: ErrorData) => {
   const authStore = useAuthStore()
   setTimeout(() => {
     authStore.logout()
-  }, 5000)
+  }, 3000)
   ElMessage.error({
-    message: `${data.error.join(';')}，5秒后自动跳转到登录页面。`,
+    message: `${data.error.join(';')}，3秒后自动跳转到登录页面。`,
     grouping: true,
     plain: true,
-    duration: 5000
+    duration: 3000
   })
 }
 
