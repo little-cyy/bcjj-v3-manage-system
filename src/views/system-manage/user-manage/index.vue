@@ -63,8 +63,10 @@ const modalFormOpt = reactive({
   formRules: updatePwdFormRules,
   //表单提交接口
   submitApi: editUserApi,
+  modalType: 'edit' as 'edit',
   // 模态框标题
   modalTitle: '更新密码',
+
 })
 //endregion
 

@@ -1,10 +1,10 @@
 <template>
   <MdPreview :editorId="id" v-model="model" v-bind="options" class="custom-md-preview" />
-  <MdCatalog :editorId="id" :scrollElement="scrollElement" />
+  <!-- <MdCatalog :editorId="id" :scrollElement="scrollElement" /> -->
 </template>
 
-<script setup>
-import { MdCatalog, MdPreview } from 'md-editor-v3';
+<script setup lang="ts">
+import { MdPreview } from 'md-editor-v3';
 import 'md-editor-v3/lib/preview.css';
 import { ref } from 'vue';
 

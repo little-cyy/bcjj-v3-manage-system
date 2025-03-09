@@ -1,5 +1,5 @@
 import Editor from '@/components/Editor/index.vue'
-import Preview from '@/components/Preview/index.vue'
+import Preview from '@/components/Previewer/index.vue'
 import TreeSelect from '@/components/TreeSelect/index.vue'
 import { type RendererOptions } from 'vxe-table'
 
